@@ -59,3 +59,82 @@ git commit -m "feat: added cypress and wrote first smoke test"
 gh pr create
 gh pr merge
 ```
+```bash
+git checkout -b ci
+yarn rw test
+```
+Press 'a' to run all tests - see that there's already some tests written for us! Very nice.
+
+Double check that we know how to run in ci mode with
+```bash
+yarn rw test --no-watch
+```
+
+Cypress in CI mode (make sure the dev server is running in another terminal session!):
+
+```bash
+yarn run cypress run
+```
+Everything passing in both our unit tests and e2e - let's put in in action - a GitHub action!
+
+```bash
+mkdir -p .github/workflows
+code .github/workflows/test.yml
+```
+
+Here's our action:
+
+```yml
+name: Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '16.x'
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Unit tests
+        env:
+          TEST_DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
+        run: yarn rw test --no-watch
+      - name: E2E Tests
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        uses: cypress-io/github-action@v2
+        with:
+          build: yarn rw build
+          start: yarn rw serve
+```
+
+For now, we need both a "regular" database for running our e2e tests with Cypress, and "test" database to test out unit and integration tests with Jest. Hopefully down the line we will be able to use the test DB for everything.
+
+Setup a local Postgres install for local dev workflow, or use Railway.
+
+Switch rw project to use pg.
+
+Will be using Railway PG for both "real" and "test" dbs in our CI.
+Provision 3 pg instances - environments "production", "test", and "ci".
+
+In github, go to your `tdd-rw` repo > Settings > Security > Secrets > Actions, click the 'New Repository Secret' button, and input the connection strings from Railway as `DATABASE_URL` and `TEST_DATABASE_URL`.
+
+Everything should now be set up to run your tests in a github action every pull request - let's test it out!
+
+```bash
+git add .
+git commit -m "feat: added github action to run tests"
+gh pr create
+```
+
+Go check out you actions running! If everything works, go ahead and merge/rebase the branch. If not, well, fix it!
