@@ -135,6 +135,7 @@ Everything should now be set up to run your tests in a github action every pull 
 git add .
 git commit -m "feat: added github action to run tests"
 gh pr create
+gh pr merge
 ```
 
-Go check out you actions running! If everything works, go ahead and merge/rebase the branch. If not, well, fix it!
+Go ahead and rebase/merge the branch. Once merged, you should be able to go to the "Actions" tab of your repo in GitHub and watch all of your tests execute, and, presumably, pass!
