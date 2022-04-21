@@ -125,7 +125,7 @@ Setup a local Postgres install for local dev workflow, or use Railway.
 Switch rw project to use pg.
 
 Will be using Railway PG for both "real" and "test" dbs in our CI.
-Provision 3 pg instances - environments "production", "test", and "ci".
+Provision 3 pg instances - environments "production", "test", and "ci" (Why a "production" environment? because that's the default when you start a new Railway project! No reason to delete it, we'll use it in a bit.).
 
 In github, go to your `tdd-rw` repo > Settings > Security > Secrets > Actions, click the 'New Repository Secret' button, and input the connection strings from Railway as `DATABASE_URL` and `TEST_DATABASE_URL`.
 
