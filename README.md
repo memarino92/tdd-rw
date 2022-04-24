@@ -139,3 +139,43 @@ gh pr merge
 ```
 
 Go ahead and rebase/merge the branch. Once merged, you should be able to go to the "Actions" tab of your repo in GitHub and watch all of your tests execute, and, presumably, pass!
+
+Now that we have a working CI/CD pipeline, let's go ahead and get this puppy deployed. Redwood has built in support for a bunch of different deployment prodivers and environments - one of the easiest to get started with is Netlify, so we'll be using that one for our purposes. Head on over to [Netlify](https://netlify.com) and sign up for an account if you don't have one already.
+
+Back in your terminal, create a new branch:
+
+```bash
+git checkout -b deploy
+```
+
+and run the redwood netlify setup command:
+
+```bash
+yarn rw setup deploy netlify
+```
+This command created a `netlify.toml` file in the root of your app, and makes a modification to `redwood.toml`. This provides Netlify all the information it needs to build and deploy your application. Go ahead and commit these changes, and open a pull request - making sure our tests pass and we didn't break the app!
+We *could* have run our tests locally, but as long as they pass in CI, that's all we really care about.
+
+```bash
+git add .
+git commit -m "build: setup deploy settings for Netlify"
+gh pr create
+gh run watch
+```
+
+This time, we can watch our tests run in CI right from our terminal with `gh run watch`.
+
+Once our tests pass (and they should), go ahead and merge the branch
+
+```bash
+gh pr merge
+```
+and let's get this app deployed already! Install Netlify's CLI if you don't have it already and log in and set up a new project
+
+```bash
+npm install netlify-cli -g
+netlify login
+netlify init
+```
+
+and that should do it! We should be able to visit our site live, in production - although there's not much to look at yet!
