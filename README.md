@@ -170,12 +170,54 @@ Once our tests pass (and they should), go ahead and merge the branch
 ```bash
 gh pr merge
 ```
-and let's get this app deployed already! Install Netlify's CLI if you don't have it already and log in and set up a new project
+and let's get this app deployed already!
+
+(brief instructions on setting up a new site in Netlify go here)
+
+And that should do it! We should be able to visit our site live, in production - although there's not much to look at yet. As a matter of fact, if you were to visit the site, you'd get a 404 error, not even the splash page we see in our local environment. That's just the nature of Redwood, though, so let's give the people something to look at.
+
+Create a new git branch, `homepage`, and create a new file, `cypress/integration/home.spec.js`
 
 ```bash
-npm install netlify-cli -g
-netlify login
-netlify init
+git checkout -b homepage
+touch cypress/integration/home.spec.js
 ```
 
-and that should do it! We should be able to visit our site live, in production - although there's not much to look at yet!
+Let's write a test that tries to find the word "home" on the home page. Put the following inside `home.spec.js`
+
+```js
+describe('Renders the homepage successfully', () => {
+  it('can navigate to the home page', () => {
+    cy.visit('localhost:8910')
+  })
+
+  it('contains the word "Home"', () => {
+    cy.visit('localhost:8910')
+
+    cy.contains('Home)
+  })
+})
+```
+
+When we run this test in Cypress, it fails with an Assertion Error: `Timed out retrying after 4000ms: Expected to find content: 'Home' but never did.`
+
+We've hit our first "Red" of the "Red, Green, Refactor" mantra popular in TestDriven Development. We've described how we'd like the world to be different than how it is. Now, our next task is to write as little code as possible to get that test to pass.
+
+Fortunately for us, we're using Redwood, so all it takes to turn our red test green is to generate a home page using the Redwood CLI generator functionality.
+
+```bash
+yarn rw g page home /
+```
+
+Run your test again, and you should see it passing! So what's next, refactor?
+
+Maybe. Maybe we keep this test around for now, and refactor it at another point. It succinctly provides us, at the very least, confidence that our app builds and renders the home page successfully. Let's remove our first smoke test `app.spec.js`, and commit our first real passing test.
+
+```bash
+git rm cypress/integration/app.spec.js
+git add .
+git commit -m "feat: added homepage"
+git push -u origin homepage
+gh pr create -f
+```
+quick note about git rm vs rm, git mv vs mv etc.
