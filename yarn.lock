@@ -10165,9 +10165,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cypress@npm:^9.5.4":
-  version: 9.5.4
-  resolution: "cypress@npm:9.5.4"
+"cypress@npm:^9.7.0":
+  version: 9.7.0
+  resolution: "cypress@npm:9.7.0"
   dependencies:
     "@cypress/request": ^2.88.10
     "@cypress/xvfb": ^1.2.4
@@ -10213,7 +10213,7 @@ __metadata:
     yauzl: ^2.10.0
   bin:
     cypress: bin/cypress
-  checksum: 81e621ca76293b3a9f933fbcfc395f71a9fbb4eb9d5fed7c0a116aced0081cd344cb9c5559febfb74475072c24e34f7378dc868098def5699e6dd7865614bd5f
+  checksum: 9ebffdc463ebb4db796fa27fa11883f04e696711417f544a7d793a7a283c2f79c4f5d1e528bc3d312a16a1e1d6ae63532106feb4c70b4a42f51fd3d0487d4d38
   languageName: node
   linkType: hard
 
@@ -20866,7 +20866,7 @@ __metadata:
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
     "@redwoodjs/core": ^1.5.1
-    cypress: ^9.5.4
+    cypress: ^9.7.0
   languageName: unknown
   linkType: soft
 
