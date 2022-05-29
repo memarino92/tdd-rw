@@ -8,7 +8,7 @@
     ]
   },
   "devDependencies": {
-    "@redwoodjs/core": "^1.4.0",
+    "@redwoodjs/core": "^1.5.1",
     "cypress": "^9.5.4"
   },
   "eslintConfig": {
